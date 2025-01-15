@@ -11,6 +11,7 @@ dependencies = [
     "matplotlib>=3.10.0",
     "numpy>=2.2.1",
     "pre-commit>=4.0.1",
+    "riverswim",
 ]
 
 [tool.black]
@@ -37,3 +38,6 @@ enableTypeIgnoreComments = true
 
 [tool.pytest.ini_options]
 filterwarnings = ["ignore::DeprecationWarning:gymnasium.*:"]
+
+[tool.uv.sources]
+riverswim = { git = "https://github.com/cruz-lucas/riverswim.git" }

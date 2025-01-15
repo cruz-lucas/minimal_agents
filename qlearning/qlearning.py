@@ -89,52 +89,57 @@ if __name__ == "__main__":
     """
     import gymnasium as gym
     import matplotlib.pyplot as plt
+    import riverswim  # noqa: F401
 
-    env = gym.make("FrozenLake-v1", is_slippery=True)
+    discount = 0.99
+    epsilon = 1
+    alpha = 0.2
+
+    # env = gym.make("FrozenLake-v1", is_slippery=True)
+    env = gym.make(
+        id="RiverSwim-v0",
+    )
 
     num_states = env.observation_space.n
     num_actions = env.action_space.n
     agent = QLearningAgent(
         num_states=num_states,
         num_actions=num_actions,
-        epsilon=0.2,
-        alpha=0.5,
-        discount=0.99,
+        epsilon=epsilon,
+        alpha=alpha,
+        discount=discount,
         seed=42,
     )
 
-    n_episodes = 1_000
-    for episode in range(n_episodes):
-        obs, _ = env.reset()
-        done = False
-
-        while not done:
-            action = agent.act(obs)
-            next_obs, reward, done, truncated, info = env.step(action)
-            agent.update(obs, action, next_obs, reward)
-            obs = next_obs
+    n_steps = 100_000
+    obs, _ = env.reset()
+    for step in range(n_steps):
+        action = agent.act(obs)
+        next_obs, reward, done, truncated, info = env.step(action)
+        agent.update(obs, action, next_obs, reward)
+        obs = next_obs
 
     agent.epsilon = 0.0
-    n_episodes = 100
-    total_reward = 0
-    cumulative_episode_returns = []
-    for episode in range(n_episodes):
-        obs, _ = env.reset()
-        done = False
+    n_steps = 100
+    total_return = 0
+    returns = []
 
-        while not done:
-            action = agent.act(obs)
-            next_obs, reward, done, truncated, info = env.step(action)
-            total_reward += reward
-            obs = next_obs
+    obs, _ = env.reset()
+    done = False
 
-            cumulative_episode_returns.append(total_reward)
+    for step in range(n_steps):
+        action = agent.act(obs)
+        next_obs, reward, done, truncated, info = env.step(action)
+        total_return += reward
+        obs = next_obs
+
+        returns.append(total_return)
 
     plt.figure(figsize=(10, 6))
-    plt.plot(cumulative_episode_returns, label="Cumulative Reward", color="blue")
+    plt.plot(returns, label="Cumulative Reward", color="blue")
     plt.xlabel("Steps")
     plt.ylabel("Reward")
-    plt.title("Returns")
+    plt.title("Return")
     plt.legend()
     plt.grid()
     plt.show()
