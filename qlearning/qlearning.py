@@ -16,10 +16,7 @@ class QLearningAgent:
         discount: float = 0.95,
         seed: int | None = None,
     ):
-        """Initializes the R-max agent with the given parameters.
-
-        Creates the necessary data structures for counting visits and transitions,
-        as well as storing estimates for rewards and the value function.
+        """Initializes the Q-learning agent with the given parameters.
 
         Args:
             num_states (int): Number of states in the environment.
@@ -41,15 +38,12 @@ class QLearningAgent:
         self.np_random, _ = seeding.np_random(seed)
 
     def update(self, obs: int, action: int, next_obs: int, reward: int | float):
-        """Updates the internal model with a new experience.
-
-        Increments visit counts for the given state-action pair, adds
-        the observed reward, and updates transition counts.
+        """Updates the Q-values.
 
         Args:
-            obs (int): Current state.
+            obs (int): Current observation.
             action (int): Action taken in the current state.
-            next_obs (int): State reached after taking the action.
+            next_obs (int): Observation received after taking the action.
             reward (int | float): Reward received upon transitioning to next_state.
         """
         td_error = (
@@ -64,14 +58,11 @@ class QLearningAgent:
     def act(self, obs) -> int:
         """Selects an action based on the current value function.
 
-        Computes the estimated Q-value for each possible action and
-        returns the action that yields the highest value.
-
         Args:
-            obs (int): Current state from which to choose an action.
+            obs (int): Current observation from which to choose an action.
 
         Returns:
-            int: The action that maximizes the estimated Q-value.
+            int: The action that maximizes the estimated Q-value or a random action.
         """
         q_values = self.Q[obs]
         if self.np_random.random() < self.epsilon:
