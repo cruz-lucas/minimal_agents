@@ -1,7 +1,11 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "qlearning"
+name = "agents"
 version = "0.1.0"
-description = "A minimal implementation of Q-Learning with epsilon-greedy exploration strategy."
+description = "A minimal implementation of RL agents."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "Lucas Cruz", email = "lucas@lucas-cruz.com" }]
@@ -12,6 +16,7 @@ dependencies = [
     "numpy>=2.2.1",
     "pre-commit>=4.0.1",
     "riverswim",
+    "scipy>=1.15.1",
 ]
 
 [tool.black]
