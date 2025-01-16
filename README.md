@@ -1,4 +1,4 @@
-# Tabular Agents
+# Minimal Agents
 
 This repository contains a **minimal implementation** of a tabular Q-learning and R-max agents. The code is provided in `qlearning.py`, and can be used as a simple baseline or a starting point for more advanced algorithms.
 
