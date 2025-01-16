@@ -1,11 +1,11 @@
-"""Implementation of Q-learning Agent."""
+"""Implementation of SARSA Agent."""
 
 import numpy as np
 from gymnasium.utils import seeding
 
 
-class QLearningAgent:
-    """A simple tabular Q-learning agent."""
+class SARSAAgent:
+    """A simple tabular SARSA agent."""
 
     def __init__(
         self,
@@ -17,7 +17,7 @@ class QLearningAgent:
         initial_value: int | float = 0,
         seed: int | None = None,
     ):
-        """Initializes the Q-learning agent with the given parameters.
+        """Initializes the SARSA agent with the given parameters.
 
         Args:
             num_states (int): Number of states in the environment.
@@ -36,12 +36,10 @@ class QLearningAgent:
 
         self.td_errors: np.ndarray = np.array([])
 
-        self.Q = np.full(
-            (num_states, num_actions), dtype=np.float64, fill_value=initial_value
-        )
+        self.Q = np.full((num_states, num_actions), dtype=np.float64, fill_value=0)
         self.np_random, _ = seeding.np_random(seed)
 
-    def update(self, obs: int, action: int, next_obs: int, reward: int | float):
+    def update(self, obs: int, action: int, next_obs: int, reward: int | float) -> int:
         """Updates the Q-values.
 
         Args:
@@ -49,13 +47,20 @@ class QLearningAgent:
             action (int): Action taken in the current state.
             next_obs (int): Observation received after taking the action.
             reward (int | float): Reward received upon transitioning to next_state.
+
+        Returns:
+            int: The next action.
         """
+        next_action = self.act(next_obs)
+
         td_error = (
-            reward + self.discount * np.max(self.Q[next_obs, :]) - self.Q[obs, action]
+            reward + self.discount * self.Q[next_obs, next_action] - self.Q[obs, action]
         )
         self.Q[obs, action] += self.alpha * td_error
 
         self.td_errors = np.append(self.td_errors, td_error)
+
+        return next_action
 
     def act(self, obs) -> int:
         """Selects an action based on the current value function.
