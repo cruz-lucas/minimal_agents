@@ -193,14 +193,12 @@ def test_agent_seeding() -> None:
     sarsa_agent1 = SARSAAgent(4, 2, 0.5, 0.5, seed=seed)
     sarsa_agent2 = SARSAAgent(4, 2, 0.5, 0.5, seed=seed)
 
-    # Test action sequences for QLearningAgent
     actions1 = [q_agent1.act(0) for _ in range(10)]
     actions2 = [q_agent2.act(0) for _ in range(10)]
     assert (
         actions1 == actions2
     ), "QLearningAgents with the same seed produced different actions."
 
-    # Test action sequences for SARSAAgent
     actions1 = [sarsa_agent1.act(0) for _ in range(10)]
     actions2 = [sarsa_agent2.act(0) for _ in range(10)]
     assert (

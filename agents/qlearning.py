@@ -1,10 +1,11 @@
 """Implementation of Q-learning Agent."""
 
 import numpy as np
+from agents import BaseAgent
 from gymnasium.utils import seeding
 
 
-class QLearningAgent:
+class QLearningAgent(BaseAgent):
     """A simple tabular Q-learning agent."""
 
     def __init__(

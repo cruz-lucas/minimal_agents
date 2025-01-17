@@ -1,10 +1,11 @@
 """Implementation of R-max Agent."""
 
 import numpy as np
+from agents import BaseAgent
 from gymnasium.utils import seeding
 
 
-class RMaxAgent:
+class RMaxAgent(BaseAgent):
     """A simple tabular R-max agent."""
 
     def __init__(

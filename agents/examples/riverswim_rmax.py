@@ -10,10 +10,10 @@ from scipy.stats import sem, t
 
 discount = 0.95
 epsilon1 = 0.1
-m = 5
-r_max = 100_000
+m = 16
+r_max = 10_000
 
-max_steps = 10_000
+max_steps = 5_000
 n_seeds = 50
 confidence_level = 0.95
 
@@ -25,8 +25,6 @@ env = gym.make(
     commom_reward=0,
     p_right=0.3,
     p_left=0.1,
-    random_initial_state=False,
-    initial_state=0,
 )
 
 all_returns = []

@@ -1,10 +1,11 @@
 """Implementation of SARSA Agent."""
 
 import numpy as np
+from agents import BaseAgent
 from gymnasium.utils import seeding
 
 
-class SARSAAgent:
+class SARSAAgent(BaseAgent):
     """A simple tabular SARSA agent."""
 
     def __init__(
