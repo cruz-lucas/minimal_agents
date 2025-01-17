@@ -11,7 +11,7 @@ class RMaxAgent:
         self,
         num_states: int,
         num_actions: int,
-        epsilon1: np.float32,
+        epsilon1: float,
         r_max: float = 1.0,
         m: int = 5,
         discount: float = 0.95,
@@ -25,7 +25,7 @@ class RMaxAgent:
         Args:
             num_states (int): Number of states in the environment.
             num_actions (int): Number of possible actions.
-            epsilon1 (float, optional): Number of iterations the optimal policy will return near-optimal value (U(pi) - epsilon) on average.
+            epsilon1 (float): Number of iterations the optimal policy will return near-optimal value (U(pi) - epsilon) on average.
                 Defaults to 10.
             r_max (float, optional): Maximum possible reward for unknown
                 state-action pairs. Defaults to 1.0.
@@ -157,4 +157,6 @@ class RMaxAgent:
             int: The action that maximizes the estimated Q-value.
         """
         q_values = self.Q[obs]
-        return int(self.np_random.choice(np.argwhere(q_values == np.max(q_values)))[0])
+        return self.np_random.choice(
+            np.argwhere(q_values == np.max(q_values)).reshape((-1,))
+        )

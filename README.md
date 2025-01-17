@@ -1,6 +1,6 @@
 # Minimal Agents
 
-This repository contains a **minimal implementation** of a tabular Q-learning and R-max agents (other types of agents to be included in the future). The agents are pretty simple and can be used as baselines or a starting point for more advanced algorithms.
+This repository contains a **minimal implementation** of a tabular Q-learning, SARSA and R-max agents (other types of agents to be included in the future). The agents are pretty simple and can be used as baselines or a starting point for more advanced algorithms.
 
 ## Table of Contents
 1. [Installation](#installation)

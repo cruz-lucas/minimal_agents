@@ -15,6 +15,7 @@ dependencies = [
     "matplotlib>=3.10.0",
     "numpy>=2.2.1",
     "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
     "riverswim",
     "scipy>=1.15.1",
 ]

@@ -11,8 +11,8 @@ class SARSAAgent:
         self,
         num_states: int,
         num_actions: int,
-        epsilon: np.float32,
-        alpha: np.float32,
+        epsilon: float,
+        alpha: float,
         discount: float = 0.95,
         initial_value: int | float = 0,
         seed: int | None = None,
@@ -22,8 +22,8 @@ class SARSAAgent:
         Args:
             num_states (int): Number of states in the environment.
             num_actions (int): Number of possible actions.
-            epsilon (np.float32): Chance of choosing a random action.
-            alpha (np.float32): Step size.
+            epsilon (float): Chance of choosing a random action.
+            alpha (float): Step size.
             discount (float, optional): discount (float, optional): Discount factor. Defaults to 0.95.
             initial_value (int | float): Initial value for the Q values. Defaults to 0.
             seed (int | None, optional): Seed to ensure reproducibility. Defaults to None.
@@ -52,7 +52,6 @@ class SARSAAgent:
             int: The next action.
         """
         next_action = self.act(next_obs)
-
         td_error = (
             reward + self.discount * self.Q[next_obs, next_action] - self.Q[obs, action]
         )
@@ -74,8 +73,6 @@ class SARSAAgent:
         q_values = self.Q[obs]
         if self.np_random.random() < self.epsilon:
             return int(self.np_random.choice(self.num_actions))
-        return int(
-            self.np_random.choice(
-                np.argwhere(q_values == np.max(q_values)).reshape(-1, 1)
-            )[0]
+        return self.np_random.choice(
+            np.argwhere(q_values == np.max(q_values)).reshape((-1,))
         )
