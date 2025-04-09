@@ -1,18 +1,23 @@
-"""Example for R-Max with RiverSwim with mean and confidence interval."""
+"""Example for MBIE with RiverSwim with mean and confidence interval."""
 
 import gymnasium as gym
 import matplotlib.pyplot as plt
 import numpy as np
 import riverswim  # noqa: F401
-from agents import RMaxAgent
+from agents import MBIEAgent
 from scipy.stats import sem, t
 
 
 if __name__ == "__main__":
     discount = 0.95
-    epsilon1 = 0.1
-    m = 16
+    epsilon = 0.1
+    m = 16  # Defined as np.inf in Section 6 of Strehl and Littman's paper.
     r_max = 10_000
+
+    epsilon_r_coeff = 0.3
+    epsilon_t_coeff = 0.0
+    exploration_coeff = 0.4
+    use_exploration_bonus = False
 
     max_steps = 5_000
     n_seeds = 50
@@ -31,13 +36,17 @@ if __name__ == "__main__":
     all_returns = []
 
     for seed in range(n_seeds):
-        agent = RMaxAgent(
+        agent = MBIEAgent(
             num_states=env.observation_space.n,
             num_actions=env.action_space.n,
             r_max=r_max,
-            epsilon1=epsilon1,
             m=m,
+            epsilon=epsilon,
             discount=discount,
+            epsilon_r_coeff=epsilon_r_coeff,
+            epsilon_t_coeff=epsilon_t_coeff,
+            exploration_coeff=exploration_coeff,
+            use_exploration_bonus=use_exploration_bonus,
             seed=seed,
         )
 

@@ -27,7 +27,6 @@ class RMaxAgent(BaseAgent):
             num_states (int): Number of states in the environment.
             num_actions (int): Number of possible actions.
             epsilon1 (float): Number of iterations the optimal policy will return near-optimal value (U(pi) - epsilon) on average.
-                Defaults to 10.
             r_max (float, optional): Maximum possible reward for unknown
                 state-action pairs. Defaults to 1.0.
             m (int, optional): Minimum number of visits required to consider
