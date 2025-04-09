@@ -19,13 +19,13 @@ N_SEEDS = 50
 CONFIDENCE_LEVEL = 0.95
 
 # MBIE-specific parameters
-EPSILON = 0.1
+EPSILON = 0.01
 EPSILON_R_COEFF = 0.3
 EPSILON_T_COEFF = 0.0
 EXPLORATION_COEFF = 0.4
 
 # R-Max-specific parameter
-EPSILON1 = 0.1
+EPSILON1 = 0.01
 
 
 def run_rmax(seed):
