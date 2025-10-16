@@ -3,21 +3,20 @@ requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agents"
+name = "minimal-agents"
 version = "0.1.0"
-description = "A minimal implementation of RL agents."
+description = "A minimal implementation of tabular RL agents powered by JAX."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [{ name = "Lucas Cruz", email = "lucas@lucas-cruz.com" }]
-license = { text = "MIT License" }
 dependencies = [
     "gymnasium>=1.0.0",
     "matplotlib>=3.10.0",
     "numpy>=2.2.1",
+    "scipy>=1.15.1",
+    "jax>=0.4.30",
     "pre-commit>=4.0.1",
     "pytest>=8.3.4",
-    "riverswim",
-    "scipy>=1.15.1",
 ]
 
 [tool.black]
@@ -25,25 +24,17 @@ dependencies = [
 [tool.isort]
 atomic = true
 profile = "black"
-src_paths = ["gymnasium", "tests", "docs/_scripts"]
+src_paths = ["minimal_agents", "tests", "docs/_scripts"]
 extra_standard_library = ["typing_extensions"]
 indent = 4
 lines_after_imports = 2
 multi_line_output = 3
 
-[tool.pyright]
-include = ["gymnasium/**"]
-exclude = ["tests/**", "**/node_modules", "**/__pycache__"]
-strict = []
-
 typeCheckingMode = "basic"
-pythonVersion = "3.10"
+pythonVersion = "3.11"
 pythonPlatform = "All"
 typeshedPath = "typeshed"
 enableTypeIgnoreComments = true
 
 [tool.pytest.ini_options]
-filterwarnings = ["ignore::DeprecationWarning:gymnasium.*:"]
-
-[tool.uv.sources]
-riverswim = { git = "https://github.com/cruz-lucas/riverswim.git" }
+filterwarnings = []

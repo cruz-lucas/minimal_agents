@@ -1,6 +1,6 @@
 # Minimal Agents
 
-This repository contains a **minimal implementation** of a tabular Q-learning, SARSA and R-max agents (other types of agents to be included in the future). The agents are pretty simple and can be used as baselines or a starting point for more advanced algorithms.
+This repository contains a **minimal implementation** of tabular reinforcement-learning agents powered by [JAX](https://github.com/google/jax). It ships with Q-learning (including an intrinsic-reward variant), SARSA, R-MAX and MBIE-EB agents, together with a policy module featuring random-walk, epsilon-greedy and UCB exploration strategies. The code is intentionally concise and aims to serve both as a baseline and a reference for more advanced work.
 
 ## Table of Contents
 1. [Installation](#installation)
@@ -13,7 +13,7 @@ This repository contains a **minimal implementation** of a tabular Q-learning, S
 
 ## Installation
 
-You can install this package using either **pip** or **uv** (a minimal package manager/distribution manager example in Python).
+You can install this package using either **pip** or **uv**.
 **Note**: If you're unfamiliar with `uv`, you can skip directly to the `pip` instructions.
 
 ### 1. Installing via `uv`
@@ -33,7 +33,56 @@ This command installs the RiverSwim environment into your Python environment (**
 
 ## Usage
 
-Once installed, you can use the agents in your Python code. You can find examples of usage in the [examples](./agents/examples/).
+Once installed, import the agents and policies directly from the package:
+
+```python
+from minimal_agents.agents import QLearningAgent
+from minimal_agents.policies import EpsilonGreedyPolicy
+
+agent = QLearningAgent(
+    num_states=10,
+    num_actions=4,
+    learning_rate=0.2,
+    epsilon=0.1,
+    discount=0.99,
+    seed=0,
+)
+
+# Configure an alternative policy if required.
+agent.set_policy(EpsilonGreedyPolicy(epsilon=0.05))
+
+state = 0
+action = agent.select_action(state)
+transition = env.step(action)  # user-defined environment interaction
+agent.update(
+    obs=state,
+    action=action,
+    reward=transition.reward,
+    next_obs=transition.next_state,
+    done=transition.terminated,
+)
+```
+
+Consult the docstrings for each agent to learn about the available diagnostics (e.g. TD errors) and policy hooks.
+
+### Examples
+
+- [`examples/cartpole_q_learning.py`](./examples/cartpole_q_learning.py) trains a Q-learning agent with simple discretisation on Gymnasium's publicly available `CartPole-v1`.
+- [`examples/riverswim_comparison.py`](./examples/riverswim_comparison.py) compares MBIE, MBIE-EB, and R-MAX on the RiverSwim benchmark (requires the `riverswim` extra dependency).
+
+### Running Tests
+
+After installing the project dependencies, run the unit suite from the repository root:
+
+```bash
+pytest
+```
+
+If you use [`uv`](https://github.com/astral-sh/uv) to manage environments, the equivalent command is:
+
+```bash
+uv run pytest
+```
 
 ## Contributing
 
