@@ -66,17 +66,17 @@ class QLearningAgent(TabularAgent):
         reward: float,
         next_obs: int,
         *,
-        done: bool = False,
+        terminated: bool = False,
     ) -> UpdateResult:
         obs_idx = int(obs)
         action_idx = int(action)
         next_obs_idx = int(next_obs)
 
         reward_val = jnp.asarray(reward, dtype=jnp.float32)
-        done_mask = jnp.asarray(done, dtype=jnp.float32)
+        terminated_mask = jnp.asarray(terminated, dtype=jnp.float32)
 
         next_value = jnp.max(self._q_values[next_obs_idx])
-        target = reward_val + self.discount * (1.0 - done_mask) * next_value
+        target = reward_val + self.discount * (1.0 - terminated_mask) * next_value
         td_error = target - self._q_values[obs_idx, action_idx]
 
         self._q_values = self._q_values.at[obs_idx, action_idx].add(

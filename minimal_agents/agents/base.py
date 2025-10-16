@@ -123,7 +123,7 @@ class TabularAgent(ABC):
         reward: float,
         next_obs: int,
         *,
-        done: bool = False,
+        terminated: bool = False,
     ) -> UpdateResult:
         """Updates the agent with a transition and returns diagnostic info."""
 

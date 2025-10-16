@@ -58,7 +58,7 @@ def run_episode(
             action=action,
             reward=reward,
             next_obs=next_state,
-            done=terminated or truncated,
+            terminated=terminated,
         )
 
         total_reward += reward
@@ -83,7 +83,7 @@ def main() -> None:
         policy=EpsilonGreedyPolicy(epsilon=0.1),
     )
 
-    episodes = 55_000
+    episodes = 50_000
     rewards = []
     for episode in range(episodes):
         reward = run_episode(env, agent, discretiser)

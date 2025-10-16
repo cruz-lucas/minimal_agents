@@ -128,9 +128,9 @@ class MBIEAgent(TabularAgent):
         reward: float,
         next_obs: int,
         *,
-        done: bool = False,
+        terminated: bool = False,
     ) -> UpdateResult:
-        del done  # MBIE is episodic but update logic does not depend on terminal flag.
+        del terminated  # MBIE is episodic but update logic does not depend on terminal flag.
 
         obs_idx = int(obs)
         action_idx = int(action)

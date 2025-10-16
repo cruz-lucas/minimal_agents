@@ -66,23 +66,23 @@ class SARSAAgent(TabularAgent):
         reward: float,
         next_obs: int,
         *,
-        done: bool = False,
+        terminated: bool = False,
     ) -> UpdateResult:
         obs_idx = int(obs)
         action_idx = int(action)
         next_obs_idx = int(next_obs)
 
         reward_val = jnp.asarray(reward, dtype=jnp.float32)
-        done_mask = jnp.asarray(done, dtype=jnp.float32)
+        terminated_mask = jnp.asarray(terminated, dtype=jnp.float32)
 
-        if done:
+        if terminated:
             next_action = None
             next_q = 0.0
         else:
             next_action = self.select_action(next_obs_idx)
             next_q = self._q_values[next_obs_idx, next_action]
 
-        target = reward_val + self.discount * (1.0 - done_mask) * next_q
+        target = reward_val + self.discount * (1.0 - terminated_mask) * next_q
         td_error = target - self._q_values[obs_idx, action_idx]
 
         self._q_values = self._q_values.at[obs_idx, action_idx].add(

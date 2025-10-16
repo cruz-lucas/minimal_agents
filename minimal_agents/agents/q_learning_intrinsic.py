@@ -41,7 +41,7 @@ class IntrinsicQLearningAgent(QLearningAgent):
         reward: float,
         next_obs: int,
         *,
-        done: bool = False,
+        terminated: bool = False,
     ) -> UpdateResult:
         obs_idx = int(obs)
         action_idx = int(action)
@@ -55,7 +55,7 @@ class IntrinsicQLearningAgent(QLearningAgent):
             action=action_idx,
             reward=augmented_reward,
             next_obs=next_obs,
-            done=done,
+            terminated=terminated,
         )
 
         info = dict(result.info or {})
