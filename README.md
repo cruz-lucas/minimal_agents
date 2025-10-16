@@ -68,7 +68,6 @@ Consult the docstrings for each agent to learn about the available diagnostics (
 ### Examples
 
 - [`examples/cartpole_q_learning.py`](./examples/cartpole_q_learning.py) trains a Q-learning agent with simple discretisation on Gymnasium's publicly available `CartPole-v1`.
-- [`examples/riverswim_comparison.py`](./examples/riverswim_comparison.py) compares MBIE, MBIE-EB, and R-MAX on the RiverSwim benchmark (requires the `riverswim` extra dependency).
 
 ### Running Tests
 
