@@ -23,7 +23,7 @@ class MBIEAgent(TabularAgent):
         epsilon_r_coeff: float = 0.3,
         epsilon_t_coeff: float = 0.0,
         exploration_coeff: float = 0.4,
-        epsilon: float = 0.01,
+        epsilon1: float = 0.01,
         m: int = 16,
         use_exploration_bonus: bool = True,
         seed: int | None = None,
@@ -33,7 +33,7 @@ class MBIEAgent(TabularAgent):
         self.epsilon_r_coeff = float(epsilon_r_coeff)
         self.epsilon_t_coeff = float(epsilon_t_coeff)
         self.exploration_coeff = float(exploration_coeff)
-        self.epsilon = float(epsilon)
+        self.epsilon1 = float(epsilon1)
         self.m = int(m)
         self.use_exploration_bonus = bool(use_exploration_bonus)
 
@@ -148,7 +148,7 @@ class MBIEAgent(TabularAgent):
 
             max_iters = int(
                 jnp.ceil(
-                    jnp.log(1.0 / (self.epsilon * (1.0 - self.discount)))
+                    jnp.log(1.0 / (self.epsilon1 * (1.0 - self.discount)))
                     / (1.0 - self.discount)
                 )
             )
