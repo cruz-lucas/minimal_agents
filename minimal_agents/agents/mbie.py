@@ -20,11 +20,11 @@ class MBIEAgent(TabularAgent):
         *,
         r_max: float,
         discount: float = 0.95,
-        epsilon_r_coeff: float = 0.3,
-        epsilon_t_coeff: float = 0.0,
-        exploration_coeff: float = 0.4,
-        epsilon1: float = 0.01,
-        m: int = 16,
+        epsilon_r_coeff: float = 1.0,
+        epsilon_t_coeff: float = 1.0,
+        exploration_coeff: float = 1.0,
+        threshold: float = 0.01,
+        m: int | None = 16,
         use_exploration_bonus: bool = True,
         seed: int | None = None,
         policy: ActionSelectionPolicy | None = None,
@@ -33,8 +33,8 @@ class MBIEAgent(TabularAgent):
         self.epsilon_r_coeff = float(epsilon_r_coeff)
         self.epsilon_t_coeff = float(epsilon_t_coeff)
         self.exploration_coeff = float(exploration_coeff)
-        self.epsilon1 = float(epsilon1)
-        self.m = int(m)
+        self.threshold = float(threshold)
+        self.m = jnp.inf if m is None else int(m)
         self.use_exploration_bonus = bool(use_exploration_bonus)
 
         self.beta = self.exploration_coeff * self.r_max
@@ -148,7 +148,7 @@ class MBIEAgent(TabularAgent):
 
             max_iters = int(
                 jnp.ceil(
-                    jnp.log(1.0 / (self.epsilon1 * (1.0 - self.discount)))
+                    jnp.log(1.0 / (self.threshold * (1.0 - self.discount)))
                     / (1.0 - self.discount)
                 )
             )
@@ -183,7 +183,7 @@ class MBIEAgent(TabularAgent):
                             target = r_hat + self.discount * opt_val + r_conf
 
                         updated = updated.at[state, act].set(float(target))
-                if jnp.max(jnp.abs(updated - Q_new)) < 1e-2:
+                if jnp.max(jnp.abs(updated - Q_new)) < self.threshold:
                     Q_new = updated
                     break
                 Q_new = updated

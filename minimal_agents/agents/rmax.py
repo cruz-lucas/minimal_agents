@@ -18,14 +18,14 @@ class RMaxAgent(TabularAgent):
         num_states: int,
         num_actions: int,
         *,
-        epsilon1: float,
+        threshold: float,
         r_max: float = 1.0,
         m: int = 5,
         discount: float = 0.95,
         seed: int | None = None,
         policy: ActionSelectionPolicy | None = None,
     ) -> None:
-        self.epsilon1 = float(epsilon1)
+        self.threshold = float(threshold)
         self.r_max = float(r_max)
         self.m = int(m)
 
@@ -107,11 +107,13 @@ class RMaxAgent(TabularAgent):
             if self.is_known(obs_idx, action_idx):
                 max_steps = int(
                     jnp.ceil(
-                        jnp.log(1.0 / (self.epsilon1 * (1.0 - self.discount)))
+                        jnp.log(1.0 / (self.threshold * (1.0 - self.discount)))
                         / (1.0 - self.discount)
                     )
                 )
                 for _ in range(max_steps):
+                    old_q_values = self._q_values
+
                     for state in range(self.num_states):
                         for act in range(self.num_actions):
                             if self.is_known(state, act):
@@ -124,4 +126,7 @@ class RMaxAgent(TabularAgent):
                                 self._q_values = self._q_values.at[state, act].set(
                                     float(updated)
                                 )
+                    
+                    if jnp.max(jnp.abs(old_q_values - self._q_values)) < self.threshold:
+                        break
         return UpdateResult()
